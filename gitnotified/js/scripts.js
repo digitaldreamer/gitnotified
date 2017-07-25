@@ -62,7 +62,78 @@ class Game extends React.Component {
 
 // ========================================
 
+function WelcomeFunc(props) {
+    return <h1>Hello, {props.name}</h1>;
+}
+
+class Welcome extends React.Component {
+    render() {
+        return <h1>Hello, {this.props.name}</h1>;
+    }
+}
+
+function App() {
+    return (
+        <div>
+            <Welcome name="Chris" />
+            <Welcome name="Poyzer" />
+        </div>
+    );
+}
+
+const element = <Welcome name="Chris" />;
+ReactDOM.render(<App />, document.getElementById('welcome'));
+
+
+
+class Clock extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            date: new Date()
+        };
+    }
+
+    render() {
+        return (
+            <div className="clock">
+              <h1>Git Notified</h1>
+              <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+            </div>
+        );
+    }
+
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(), 1000
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    tick() {
+        this.setState({
+            date: new Date()
+        });
+    }
+}
+
+function tick() {
+    ReactDOM.render(
+        <Clock />,
+        document.getElementById('root')
+    );
+}
+
+setInterval(tick, 1000);
+
+
+
+
+
 ReactDOM.render(
   <Game />,
-  document.getElementById('root')
+  document.getElementById('game')
 );
