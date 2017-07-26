@@ -18,7 +18,7 @@ function createWindow () {
         title: 'Git Notified',
         width: 800,
         height: 600,
-        transparent: false,
+        transparent: true,
         frame: true,
         toolbar: false,
         fullscreen: FULLSCREEN,
