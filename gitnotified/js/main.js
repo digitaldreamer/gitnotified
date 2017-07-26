@@ -16,6 +16,10 @@ ReactDOM.render(
     <App />,
     document.getElementById('root')
 );
+
+Notification.requestPermission();
+var notify = new Notification('title', { body: 'body', icon: 'img/original.png' });
+
 //
 // const numbers = [1, 2, 3, 4, 5];
 // ReactDOM.render(
