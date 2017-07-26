@@ -20,7 +20,7 @@ function createWindow () {
         height: 600,
         transparent: true,
         frame: true,
-        toolbar: false,
+        toolbar: true,
         fullscreen: FULLSCREEN,
         kiosk: FULLSCREEN,
         'web-preferences': {
@@ -92,7 +92,7 @@ app.on('activate', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 function getSettings() {
-    let filepath = app.getPath('home') + '/gitnotified/settings.json';
+    let filepath = app.getPath('home') + '/.gitnotified/settings.json';
     let settings = fs.readFileSync(filepath, 'utf-8');
 
     console.log("settings: " + settings);
