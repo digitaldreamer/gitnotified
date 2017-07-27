@@ -19,8 +19,8 @@ data/
 *~
 #*#
 .#*
-*build/
 *.egg-info
+node_modules/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -32,16 +32,10 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-env/
-build/
+# build/
 develop-eggs/
-dist/
-downloads/
 eggs/
 .eggs/
-parts/
-sdist/
-var/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -74,29 +68,16 @@ junit-results*.xml
 # Django stuff:
 *.log
 
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
 *.sublime-project
 *.pid
-
-# Perf
-server/perf/*.png
-server/perf/*.tsv
-
-# load files
-**/scripts/legacy_users/*.tsv
 
 pep8.out
 /errors/
 *.tdb*
 
-bin/
-include/
-lib/
+#bin/
+#include/
+#lib/
 pip-selfcheck.json
-share/
-twisted/
+#share/
+#twisted/

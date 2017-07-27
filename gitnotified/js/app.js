@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {RepoList} from './pulls';
+import {Ledgers} from './ledger'
 
 const {ipcRenderer} = require('electron');
 
@@ -17,11 +18,8 @@ export function App() {
 
     return (
         <div>
+            <Ledgers repos={settings.repos} settings={settings} />
             <RepoList repos={settings.repos} settings={settings} />
-
-            <div id="ledger">
-                Ledger
-            </div>
         </div>
     );
 }

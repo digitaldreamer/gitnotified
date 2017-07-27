@@ -3,12 +3,23 @@
   "version": "0.1.0",
   "main": "main.js",
   "devDependencies": {
-    "electron": "^1.6.2"
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.4",
+    "electron": "^1.6.2",
+    "html-webpack-plugin": "^2.29.0",
+    "less-loader": "^4.0.5",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.4.1",
+    "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
     "jquery": "^3.2.1",
-    "less": "^2.7.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "watch": "webpack --config webpack.config.js -w",
+    "dev": "webpack-dev-server --config webpack.config.dev.js"
   }
 }

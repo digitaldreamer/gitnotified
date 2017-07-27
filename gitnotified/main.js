@@ -16,9 +16,9 @@ function createWindow () {
     // Create the browser window.
     win = new BrowserWindow({
         title: 'Git Notified',
-        width: 800,
+        width: 350,
         height: 600,
-        transparent: true,
+        transparent: false,
         frame: true,
         toolbar: true,
         fullscreen: FULLSCREEN,
@@ -30,7 +30,7 @@ function createWindow () {
     win.setAlwaysOnTop(true);
 
     // and load the index.html of the app.
-    var index = settings.index || path.join(__dirname, 'index.html');
+    var index = settings.index || path.join(__dirname, 'build/index.html');
     console.log(index);
     win.loadURL(url.format({
         pathname: index,
