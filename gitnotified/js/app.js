@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import {RepoList} from './pulls';
+
+const {ipcRenderer} = require('electron');
 
 class Welcome extends React.Component {
     render() {
@@ -9,9 +12,16 @@ class Welcome extends React.Component {
 }
 
 export function App() {
+    // <Welcome name="Chris" />
+    let settings = ipcRenderer.sendSync('get-settings', 'settings');
+
     return (
         <div>
-            <Welcome name="Chris" />
+            <RepoList repos={settings.repos} settings={settings} />
+
+            <div id="ledger">
+                Ledger
+            </div>
         </div>
     );
 }

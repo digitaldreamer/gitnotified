@@ -1,6 +1,6 @@
 const {app, ipcMain, globalShortcut, BrowserWindow} = require('electron');
-const path = require('path')
-const url = require('url')
+const path = require('path');
+const url = require('url');
 const FULLSCREEN = false;
 
 let fs = require('fs');
@@ -51,7 +51,7 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-    // settings = getSettings();
+    settings = getSettings();
 
     globalShortcut.register('CommandOrControl+X', () => {
         app.quit()
@@ -99,7 +99,7 @@ function getSettings() {
     return JSON.parse(settings);
 }
 
-ipcMain.on("getsettings", (event, arg) => {
+ipcMain.on("get-settings", (event, arg) => {
     event.returnValue = settings;
 })
 

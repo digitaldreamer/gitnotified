@@ -1,7 +1,87 @@
 @import "reset.less";
 
+@white: #fff;
+@purple: #AB14D1;
+@plum: #CA22AD;
+@pink: #EB3089;
+@red: #DA0018;
+@blue: #669CF1;
+@blue-lite: #92C5F6;
+@orange: #F56620;
+@yellow: #EEAE04;
+@lime: #B0BF00;
+@green: #86BF00;
+
 body {
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, .25);
     font-family: 'Quicksand', arial, sans-serif;
     color: #fff;
+    font-size: 1em;
+}
+
+a {
+    color: @white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#pull-requests {
+    float: left;
+    width: 40%;
+}
+
+#ledger {
+    float: left;
+    width: 60%;
+    background-color: #666;
+}
+
+.repo {
+    @time: 1000ms;
+
+    .main {
+        display: block;
+        background: @lime;
+        padding: 5px;
+        font-weight: bold;
+        text-align: center;
+        font-size: 1.2em;
+    }
+
+    span {
+        display: inline-block;
+        padding: 5px;
+    }
+
+    p {
+        padding: 5px;
+    }
+
+    a {
+        transition: background @time;
+    }
+    a:hover {
+        background: #000;
+    }
+
+    a, ul, li {
+        display: block;
+    }
+    li:nth-child(even) {
+        background: @pink;
+    }
+    li:nth-child(odd) {
+        background: @plum;
+    }
+}
+@media only screen and (max-width: 500px) {
+    #pull-requests {
+        float: none;
+        width: 100%;
+    }
+
+    #ledger {
+        float: none;
+        width: 100%;
+    }
 }
