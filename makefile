@@ -35,6 +35,9 @@ install:
 	cd $(ROOT); npm install --save-dev webpack webpack-dev-server html-webpack-plugin
 	cd $(ROOT); npm install --save-dev style-loader css-loader less less-loader
 
+	cd $(ROOT); npm install --save-dev babel-loader babel-core
+	cd $(ROOT); npm install --save-dev babel-preset-es2015 babel-preset-stage-2
+
 clean:
 	rm -rf gitnotified-darwin*
 	rm -rf gitnotified-linux*

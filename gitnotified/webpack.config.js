@@ -32,6 +32,10 @@ module.exports = {
         },{
             test: /\.less$/,
             loaders: ['style-loader', 'css-loader', 'less-loader']
+        }, {
+            test: /\.js$/,
+            loaders: ['babel-loader'],
+            include: path.join(__dirname, 'js')
         }]
     }
 }
