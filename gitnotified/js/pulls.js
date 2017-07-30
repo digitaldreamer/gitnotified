@@ -11,7 +11,7 @@ export class RepoList extends React.Component {
             console.log(JSON.stringify(repo));
 
             return (
-                <Repo repo={repo} key={repo.id.toString()} settings={this.props.settings} />
+                <Repo repo={repo} key={repo.full_name} settings={this.props.settings} />
             );
         });
 
@@ -44,11 +44,11 @@ class Repo extends React.Component {
         let prs = data || [];
         let pulls = prs.map((data) => {
             return (
-                <PullRequest key={data.number.toString()} repo={this.props.repo} settings={settings} commits="0" comments="0" number={data.number} id={data.id} title={data.title} />
+                <PullRequest key={data.number.toString()} repo={this.props.repo} settings={settings} data={data} />
             )
         });
 
-        return pulls
+        return pulls;
     }
 
     componentDidMount() {
@@ -84,14 +84,14 @@ class Repo extends React.Component {
                 });
             }.bind(this)
         });
-
-        this.setState({
-            date: new Date()
-        });
     }
 
     render() {
         const repo = this.props.repo;
+
+        if (this.state.pulls.length == 0) {
+            return (null);
+        }
 
         return (
             <div className="repo">
@@ -107,23 +107,98 @@ class PullRequest extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.id,
-            commits: props.commits,
-            comments: props.comments,
-            number: props.number,
-            title: props.title
+            commits: 0,
+            comments: 0,
+            pull_comments: 0,
+            issue_comments: 0
         }
+    }
+
+    componentDidMount() {
+        this.tick();
+
+        this.timerID = setInterval(
+            () => this.tick(), 15 * 60 * 1000 // minutes
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    tick() {
+        const repo = this.props.repo;
+        const settings = this.props.settings;
+        const number = this.props.data.number;
+
+        console.log("get PR stats", this.props.repo.full_name);
+
+        $.ajax({
+            url: 'https://api.github.com/repos/' + repo.full_name + '/pulls/' + number + '/comments?per_page=300',
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            headers: {
+                'Authorization': 'token ' + settings.token
+            },
+            success: function(data, status, xhr) {
+                console.log('X-RateLimit-Remaining', xhr.getResponseHeader('X-RateLimit-Remaining'));
+
+                this.setState(prevState => ({
+                    pull_comments: data.length,
+                    comments: prevState.issue_comments + data.length
+                }));
+            }.bind(this)
+        });
+
+        $.ajax({
+            url: 'https://api.github.com/repos/' + repo.full_name + '/issues/' + number + '/comments?per_page=300',
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            headers: {
+                'Authorization': 'token ' + settings.token
+            },
+            success: function(data, status, xhr) {
+                console.log('X-RateLimit-Remaining', xhr.getResponseHeader('X-RateLimit-Remaining'));
+
+                this.setState(prevState => ({
+                    issue_comments: data.length,
+                    comments: prevState.pull_comments + data.length
+                }));
+            }.bind(this)
+        });
+
+        $.ajax({
+            url: 'https://api.github.com/repos/' + repo.full_name + '/pulls/' + number + '/commits?per_page=300',
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            headers: {
+                'Authorization': 'token ' + settings.token
+            },
+            success: function(data, status, xhr) {
+                console.log('X-RateLimit-Remaining', xhr.getResponseHeader('X-RateLimit-Remaining'));
+
+                this.setState(prevState => ({
+                    commits: data.length,
+                }));
+            }.bind(this)
+        });
     }
     render() {
         const repo = this.props.repo;
+        let actor = this.props.data.user;
 
         return (
             <li>
-                <a href={'https://github.com/' + repo.full_name + '/pull/' + this.state.number }>
-                    <span className="number">{this.state.number} -</span>
-                    <span className="commits">{this.state.commits}</span>
-                    <span className="comments">{this.state.comments}</span>
-                    <p>{this.state.title}</p>
+                <a href={'https://github.com/' + repo.full_name + '/pull/' + this.props.data.number }>
+                    <img src={actor.avatar_url} />
+                    <span className="number">#{this.props.data.number} -</span>
+                    <span className="commits"><i className="fa fa-share-alt" aria-hidden="true"></i> {this.state.commits}</span>
+                    <span className="comments"><i className="fa fa-comment"></i> {this.state.comments}</span>
+                    {actor.login}
+                    <p>{this.props.data.title}</p>
                 </a>
             </li>
         );
