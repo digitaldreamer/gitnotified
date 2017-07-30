@@ -89,6 +89,10 @@ class Repo extends React.Component {
     render() {
         const repo = this.props.repo;
 
+        if (this.state.pulls.length == 0) {
+            return (null);
+        }
+
         return (
             <div className="repo">
                 <a className="main" href={'https://github.com/' + repo.full_name}>{repo.name}</a>

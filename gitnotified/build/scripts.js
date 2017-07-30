@@ -32630,6 +32630,10 @@ var Repo = function (_React$Component2) {
         value: function render() {
             var repo = this.props.repo;
 
+            if (this.state.pulls.length == 0) {
+                return null;
+            }
+
             return _react2.default.createElement(
                 'div',
                 { className: 'repo' },
