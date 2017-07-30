@@ -1,6 +1,6 @@
 # Git Notified
 
-## Status: pre-alpha
+**Current Release: pre-alpha**
 
 This project is meant to provide a more elegant way to keep up to date with actions happening on repos that you want to watch.
 
