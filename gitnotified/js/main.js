@@ -1,11 +1,14 @@
+require('../css/styles.less')
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import {App} from './js/app';
-import {Clock} from './js/clock';
-import {NumberList} from './js/numberlist';
-import {NameForm} from './js/nameform';
+import {App} from './app';
+import {Clock} from './clock';
+import {NumberList} from './numberlist';
+import {NameForm} from './nameform';
+
 
 console.log("init");
 

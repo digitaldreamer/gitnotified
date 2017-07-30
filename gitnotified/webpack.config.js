@@ -5,8 +5,9 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
     devtool: 'source-map',
+    target: 'electron-main',
     entry: [
-        './js/test'
+        './js/main'
     ],
     output: {
         'path': path.join(__dirname, 'build'),
@@ -35,6 +36,7 @@ module.exports = {
         }, {
             test: /\.js$/,
             loaders: ['babel-loader'],
+            exclude: /node_modules/,
             include: path.join(__dirname, 'js')
         }]
     }

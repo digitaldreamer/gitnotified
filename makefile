@@ -36,7 +36,7 @@ install:
 	cd $(ROOT); npm install --save-dev style-loader css-loader less less-loader
 
 	cd $(ROOT); npm install --save-dev babel-loader babel-core
-	cd $(ROOT); npm install --save-dev babel-preset-es2015 babel-preset-stage-2
+	cd $(ROOT); npm install --save-dev babel-preset-es2015 babel-preset-stage-2 babel-preset-react
 
 clean:
 	rm -rf gitnotified-darwin*
