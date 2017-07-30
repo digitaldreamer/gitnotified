@@ -27,7 +27,7 @@ function createWindow () {
             webgl: true
         }
     });
-    win.setAlwaysOnTop(true);
+    win.setAlwaysOnTop(false);
 
     // and load the index.html of the app.
     var index = settings.index || path.join(__dirname, 'build/index.html');

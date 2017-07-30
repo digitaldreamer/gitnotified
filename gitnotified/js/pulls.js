@@ -190,7 +190,7 @@ class PullRequest extends React.Component {
         return (
             <li>
                 <a href={'https://github.com/' + repo.full_name + '/pull/' + this.state.number }>
-                    <span className="number">{this.state.number} -</span>
+                    <span className="number">#{this.state.number} -</span>
                     <span className="commits"><i className="fa fa-share-alt" aria-hidden="true"></i> {this.state.commits}</span>
                     <span className="comments"><i className="fa fa-comment"></i> {this.state.comments}</span>
                     <p>{this.state.title}</p>
