@@ -32620,7 +32620,7 @@ var Repo = function (_React$Component2) {
             var settings = this.props.settings;
             var prs = data || [];
             var pulls = prs.map(function (data) {
-                return _react2.default.createElement(PullRequest, { key: data.number.toString(), repo: _this3.props.repo, settings: settings, number: data.number, id: data.id, title: data.title });
+                return _react2.default.createElement(PullRequest, { key: data.number.toString(), repo: _this3.props.repo, settings: settings, data: data });
             });
 
             return pulls;
@@ -32700,13 +32700,10 @@ var PullRequest = function (_React$Component3) {
         var _this5 = _possibleConstructorReturn(this, (PullRequest.__proto__ || Object.getPrototypeOf(PullRequest)).call(this, props));
 
         _this5.state = {
-            id: props.id,
             commits: 0,
             comments: 0,
             pull_comments: 0,
-            issue_comments: 0,
-            number: props.number,
-            title: props.title
+            issue_comments: 0
         };
         return _this5;
     }
@@ -32733,11 +32730,12 @@ var PullRequest = function (_React$Component3) {
         value: function tick() {
             var repo = this.props.repo;
             var settings = this.props.settings;
+            var number = this.props.data.number;
 
             console.log("get PR stats", this.props.repo.full_name);
 
             _jquery2.default.ajax({
-                url: 'https://api.github.com/repos/' + repo.full_name + '/pulls/' + this.state.number + '/comments?per_page=300',
+                url: 'https://api.github.com/repos/' + repo.full_name + '/pulls/' + number + '/comments?per_page=300',
                 method: 'GET',
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
@@ -32757,7 +32755,7 @@ var PullRequest = function (_React$Component3) {
             });
 
             _jquery2.default.ajax({
-                url: 'https://api.github.com/repos/' + repo.full_name + '/issues/' + this.state.number + '/comments?per_page=300',
+                url: 'https://api.github.com/repos/' + repo.full_name + '/issues/' + number + '/comments?per_page=300',
                 method: 'GET',
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
@@ -32777,7 +32775,7 @@ var PullRequest = function (_React$Component3) {
             });
 
             _jquery2.default.ajax({
-                url: 'https://api.github.com/repos/' + repo.full_name + '/pulls/' + this.state.number + '/commits?per_page=300',
+                url: 'https://api.github.com/repos/' + repo.full_name + '/pulls/' + number + '/commits?per_page=300',
                 method: 'GET',
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
@@ -32799,18 +32797,20 @@ var PullRequest = function (_React$Component3) {
         key: 'render',
         value: function render() {
             var repo = this.props.repo;
+            var actor = this.props.data.user;
 
             return _react2.default.createElement(
                 'li',
                 null,
                 _react2.default.createElement(
                     'a',
-                    { href: 'https://github.com/' + repo.full_name + '/pull/' + this.state.number },
+                    { href: 'https://github.com/' + repo.full_name + '/pull/' + this.props.data.number },
+                    _react2.default.createElement('img', { src: actor.avatar_url }),
                     _react2.default.createElement(
                         'span',
                         { className: 'number' },
                         '#',
-                        this.state.number,
+                        this.props.data.number,
                         ' -'
                     ),
                     _react2.default.createElement(
@@ -32827,10 +32827,11 @@ var PullRequest = function (_React$Component3) {
                         ' ',
                         this.state.comments
                     ),
+                    actor.login,
                     _react2.default.createElement(
                         'p',
                         null,
-                        this.state.title
+                        this.props.data.title
                     )
                 )
             );
@@ -33541,7 +33542,7 @@ exports = module.exports = __webpack_require__(195)(undefined);
 
 
 // module
-exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml,\nbody,\ndiv,\nspan,\napplet,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\ns,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\nu,\ni,\ncenter,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd,\narticle,\naside,\ncanvas,\ndetails,\nembed,\nfigure,\nfigcaption,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\noutput,\nruby,\nsection,\nsummary,\ntime,\nmark,\naudio,\nvideo {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline;\n}\n/* HTML5 display-role reset for older browsers */\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\nsection {\n  display: block;\n}\nbody {\n  line-height: 1;\n}\nol,\nul {\n  list-style: none;\n}\nblockquote,\nq {\n  quotes: none;\n}\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n  content: '';\n  content: none;\n}\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\nbody {\n  background: rgba(0, 0, 0, 0.8);\n  font-family: 'Quicksand', arial, sans-serif;\n  color: #fff;\n  font-size: 1em;\n}\na {\n  color: #fff;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background 1000ms;\n}\n#pull-requests {\n  float: left;\n  width: 40%;\n}\n#ledgers {\n  float: right;\n  width: 60%;\n}\n.repo .main {\n  display: block;\n  background: #B0BF00;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n  font-size: 1.2em;\n}\n.repo span {\n  display: inline-block;\n  padding: 5px;\n}\n.repo p {\n  padding: 5px;\n}\n.repo a:hover {\n  background: #000;\n}\n.repo a,\n.repo ul,\n.repo li {\n  display: block;\n}\n.repo li:nth-child(even) {\n  background: #EB3089;\n}\n.repo li:nth-child(odd) {\n  background: #CA22AD;\n}\n.ledger .main {\n  background: #F56620;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n  font-size: 1.2em;\n  display: block;\n}\n.ledger a:hover {\n  background: #000;\n}\n.ledger a,\n.ledger ul,\n.ledger li {\n  display: block;\n}\n.ledger li:nth-child(even) {\n  background: #669CF1;\n}\n.ledger li:nth-child(even).highlight {\n  background: #DA0018;\n}\n.ledger li:nth-child(odd) {\n  background: #77ACF3;\n}\n.ledger li:nth-child(odd).highlight {\n  background: #DA0018;\n}\n.ledger li img {\n  display: block;\n  width: 30px;\n  float: left;\n  margin-right: 5px;\n}\n.ledger li a {\n  min-height: 40px;\n  display: block;\n  padding: 5px;\n}\n@media only screen and (max-width: 500px) {\n  #pull-requests {\n    float: none;\n    width: 100%;\n  }\n  #ledgers {\n    float: none;\n    width: 100%;\n  }\n}\n", ""]);
+exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\nhtml,\nbody,\ndiv,\nspan,\napplet,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\ns,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\nu,\ni,\ncenter,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd,\narticle,\naside,\ncanvas,\ndetails,\nembed,\nfigure,\nfigcaption,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\noutput,\nruby,\nsection,\nsummary,\ntime,\nmark,\naudio,\nvideo {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline;\n}\n/* HTML5 display-role reset for older browsers */\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\nsection {\n  display: block;\n}\nbody {\n  line-height: 1;\n}\nol,\nul {\n  list-style: none;\n}\nblockquote,\nq {\n  quotes: none;\n}\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n  content: '';\n  content: none;\n}\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\nbody {\n  background: rgba(0, 0, 0, 0.8);\n  font-family: 'Quicksand', arial, sans-serif;\n  color: #fff;\n  font-size: 1em;\n}\na {\n  color: #fff;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background 1000ms;\n}\n#pull-requests {\n  float: left;\n  width: 40%;\n}\n#ledgers {\n  float: right;\n  width: 60%;\n}\n.repo .main {\n  display: block;\n  background: #B0BF00;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n  font-size: 1.2em;\n}\n.repo span {\n  display: inline-block;\n  padding: 5px;\n}\n.repo p {\n  padding: 5px;\n}\n.repo a:hover {\n  background: #000;\n}\n.repo a,\n.repo ul,\n.repo li {\n  display: block;\n}\n.repo li:nth-child(even) {\n  background: #EB3089;\n}\n.repo li:nth-child(odd) {\n  background: #CA22AD;\n}\n.repo li img {\n  display: block;\n  width: 30px;\n  float: left;\n  margin-right: 5px;\n}\n.repo li a {\n  min-height: 40px;\n  display: block;\n  padding: 5px;\n}\n.ledger .main {\n  background: #F56620;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n  font-size: 1.2em;\n  display: block;\n}\n.ledger a:hover {\n  background: #000;\n}\n.ledger a,\n.ledger ul,\n.ledger li {\n  display: block;\n}\n.ledger li:nth-child(even) {\n  background: #669CF1;\n}\n.ledger li:nth-child(even).highlight {\n  background: #DA0018;\n}\n.ledger li:nth-child(odd) {\n  background: #77ACF3;\n}\n.ledger li:nth-child(odd).highlight {\n  background: #DA0018;\n}\n.ledger li img {\n  display: block;\n  width: 30px;\n  float: left;\n  margin-right: 5px;\n}\n.ledger li a {\n  min-height: 40px;\n  display: block;\n  padding: 5px;\n}\n@media only screen and (max-width: 500px) {\n  #pull-requests {\n    float: none;\n    width: 100%;\n  }\n  #ledgers {\n    float: none;\n    width: 100%;\n  }\n}\n", ""]);
 
 // exports
 

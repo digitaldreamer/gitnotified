@@ -44,7 +44,7 @@ class Repo extends React.Component {
         let prs = data || [];
         let pulls = prs.map((data) => {
             return (
-                <PullRequest key={data.number.toString()} repo={this.props.repo} settings={settings} number={data.number} id={data.id} title={data.title} />
+                <PullRequest key={data.number.toString()} repo={this.props.repo} settings={settings} data={data} />
             )
         });
 
@@ -103,13 +103,10 @@ class PullRequest extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.id,
             commits: 0,
             comments: 0,
             pull_comments: 0,
-            issue_comments: 0,
-            number: props.number,
-            title: props.title
+            issue_comments: 0
         }
     }
 
@@ -128,11 +125,12 @@ class PullRequest extends React.Component {
     tick() {
         const repo = this.props.repo;
         const settings = this.props.settings;
+        const number = this.props.data.number;
 
         console.log("get PR stats", this.props.repo.full_name);
 
         $.ajax({
-            url: 'https://api.github.com/repos/' + repo.full_name + '/pulls/' + this.state.number + '/comments?per_page=300',
+            url: 'https://api.github.com/repos/' + repo.full_name + '/pulls/' + number + '/comments?per_page=300',
             method: 'GET',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -150,7 +148,7 @@ class PullRequest extends React.Component {
         });
 
         $.ajax({
-            url: 'https://api.github.com/repos/' + repo.full_name + '/issues/' + this.state.number + '/comments?per_page=300',
+            url: 'https://api.github.com/repos/' + repo.full_name + '/issues/' + number + '/comments?per_page=300',
             method: 'GET',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -168,7 +166,7 @@ class PullRequest extends React.Component {
         });
 
         $.ajax({
-            url: 'https://api.github.com/repos/' + repo.full_name + '/pulls/' + this.state.number + '/commits?per_page=300',
+            url: 'https://api.github.com/repos/' + repo.full_name + '/pulls/' + number + '/commits?per_page=300',
             method: 'GET',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -186,14 +184,17 @@ class PullRequest extends React.Component {
     }
     render() {
         const repo = this.props.repo;
+        let actor = this.props.data.user;
 
         return (
             <li>
-                <a href={'https://github.com/' + repo.full_name + '/pull/' + this.state.number }>
-                    <span className="number">#{this.state.number} -</span>
+                <a href={'https://github.com/' + repo.full_name + '/pull/' + this.props.data.number }>
+                    <img src={actor.avatar_url} />
+                    <span className="number">#{this.props.data.number} -</span>
                     <span className="commits"><i className="fa fa-share-alt" aria-hidden="true"></i> {this.state.commits}</span>
                     <span className="comments"><i className="fa fa-comment"></i> {this.state.comments}</span>
-                    <p>{this.state.title}</p>
+                    {actor.login}
+                    <p>{this.props.data.title}</p>
                 </a>
             </li>
         );
