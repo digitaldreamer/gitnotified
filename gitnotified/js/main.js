@@ -5,9 +5,6 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 import {App} from './app';
-import {Clock} from './clock';
-import {NumberList} from './numberlist';
-import {NameForm} from './nameform';
 
 
 console.log("init");

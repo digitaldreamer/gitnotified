@@ -147,6 +147,10 @@ class Ledger extends React.Component {
     render() {
         const repo = this.props.repo;
 
+        if (this.state.events.length === 0) {
+            return (null);
+        }
+
         return (
             <div className="ledger">
                 <a className="main" onClick={this.mainClick}>{repo.name}</a>
